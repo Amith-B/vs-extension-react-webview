@@ -70,53 +70,48 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
-		const scriptUri = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js')
+		// Do the same for the stylesheet.
+		const favIcon = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, 'media', 'favicon.ico')
+		);
+		const logo192 = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, 'media', 'logo192.png')
+		);
+		const manifest = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, 'media', '/manifest.json')
 		);
 
-		// Do the same for the stylesheet.
-		const styleResetUri = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css')
+		const main = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, 'media/static/js', 'main.js')
 		);
-		const styleVSCodeUri = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css')
-		);
-		const styleMainUri = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css')
+
+		const css = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, 'media/static/css', 'main.css')
 		);
 
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
 
 		return `<!DOCTYPE html>
-			<html lang="en">
+		<html lang="en">
 			<head>
-				<meta charset="UTF-8">
-
-				<!--
-					Use a content security policy to only allow loading styles from our extension directory,
-					and only allow scripts that have a specific nonce.
-					(See the 'webview-sample' extension sample for img-src content security policy examples)
-				-->
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-				<link href="${styleResetUri}" rel="stylesheet">
-				<link href="${styleVSCodeUri}" rel="stylesheet">
-				<link href="${styleMainUri}" rel="stylesheet">
-
-				<title>Cat Colors</title>
+				<meta charset="utf-8" />
+				<link rel="icon" href="${favIcon}" />
+				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<meta name="theme-color" content="#000000" />
+				<meta name="description" content="Web site created using create-react-app" />
+				<link rel="apple-touch-icon" href="${logo192}" />
+				<link rel="manifest" href="${manifest}" />
+				<title>React App</title>
+				<script defer="defer" src="${main}"></script>
+				<link href="${css}" rel="stylesheet" />
 			</head>
 			<body>
-				<ul class="color-list">
-				</ul>
-
-				<button class="add-color-button">Add Color</button>
-
-				<script nonce="${nonce}" src="${scriptUri}"></script>
+				<noscript>You need to enable JavaScript to run this app.</noscript>
+				<div id="root"></div>
 			</body>
-			</html>`;
+		</html>
+		`;
 	}
 }
 
