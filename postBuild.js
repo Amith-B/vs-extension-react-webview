@@ -3,7 +3,7 @@ const path = require('path');
 
 const mainFile = 'main';
 
-const jsBuildPath = path.resolve(__dirname, 'media', 'static', 'js');
+const jsBuildPath = path.resolve(__dirname, 'dist', 'static', 'js');
 // Get the hashed jds filename
 const jdsHashedFilename = fs
 	.readdirSync(jsBuildPath)
@@ -15,7 +15,7 @@ fs.renameSync(
 	path.join(jsBuildPath, `${mainFile}.js`)
 );
 
-const cssBuildPath = path.resolve(__dirname, 'media', 'static', 'css');
+const cssBuildPath = path.resolve(__dirname, 'dist', 'static', 'css');
 // Get the hashed jds filename
 const cssHashedFilename = fs
 	.readdirSync(cssBuildPath)
