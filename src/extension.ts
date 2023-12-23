@@ -58,7 +58,10 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 	public addColor() {
 		if (this._view) {
 			this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
-			this._view.webview.postMessage({ type: 'addColor' });
+			this._view.webview.postMessage({
+				type: 'addColor',
+				data: 'text from extension',
+			});
 		}
 	}
 
@@ -72,21 +75,21 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		// Do the same for the stylesheet.
 		const favIcon = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', 'favicon.ico')
+			vscode.Uri.joinPath(this._extensionUri, 'dist', 'favicon.ico')
 		);
 		const logo192 = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', 'logo192.png')
+			vscode.Uri.joinPath(this._extensionUri, 'dist', 'logo192.png')
 		);
 		const manifest = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media', '/manifest.json')
+			vscode.Uri.joinPath(this._extensionUri, 'dist', '/manifest.json')
 		);
 
 		const main = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media/static/js', 'main.js')
+			vscode.Uri.joinPath(this._extensionUri, 'dist/static/js', 'main.js')
 		);
 
 		const css = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, 'media/static/css', 'main.css')
+			vscode.Uri.joinPath(this._extensionUri, 'dist/static/css', 'main.css')
 		);
 
 		// Use a nonce to only allow a specific script to be run.

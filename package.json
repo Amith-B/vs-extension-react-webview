@@ -56,7 +56,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "BUILD_PATH='./media' react-scripts build && node postBuild.js",
+		"build": "BUILD_PATH='./dist' react-scripts build && node postBuild.js",
 		"vscode:prepublish": "npm run compile",
 		"compile": "npm run build && tsc -p ./",
 		"lint": "eslint \"src/**/*.ts\"",

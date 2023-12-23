@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 const logo =
@@ -13,6 +13,22 @@ function App() {
 	const handleInput = (e) => {
 		setValue(e.target.value);
 	};
+
+	useEffect(() => {
+		const handleMessage = (event) => {
+			const message = event.data;
+			switch (message.type) {
+				case 'addColor': {
+					setValue(message.data);
+
+					break;
+				}
+			}
+		};
+		window.addEventListener('message', handleMessage);
+
+		return () => window.removeEventListener('message', handleMessage);
+	}, []);
 
 	return (
 		<div className="App">
